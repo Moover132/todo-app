@@ -16,5 +16,14 @@
             <button type="submit">Add сучка</button>
         </div>
     </form>
+    {% for todo in todos %}
+    <p>{{ todo.id }} | {{todo.title}}</p>
+
+    {% if todo.complete == False %}
+        <span>Not complete</span>
+    {% else %}
+        <span>Complete</span>
+    {% endif %}
+{% endfor %}
 </body>
 </html>
