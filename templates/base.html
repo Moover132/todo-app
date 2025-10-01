@@ -3,29 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>App todo</title>
+    <title>Todo app</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Todo app</h1>
+    <div class="container">
+        <h1>Todo app</h1>
 
-    <form action="/add" method="post">
-        <div>
-            <label for="title">Todo Title</labelL>
-            <input type="text" name="title" placeholder="Enter todo...">
-            <br>
-            <button type="submit">Add сучка</button>
+        <!-- Форма добавления -->
+        <form action="/add" method="post">
+            <div class="input">
+                <label for="title">Todo Title</label>
+                <input type="text" name="title" placeholder="Enter todo..." required>
+                <button type="submit" class="btn-add">Add task</button>
+            </div>
+        </form>
+
+        <!-- Список задач -->
+        <div class="todo-list">
+            {% for todo in todos %}
+                <div class="todo-item">
+                    <span class="todo-title">{{ todo.title }}</span>
+                    <span class="status">{{ "✔️ Done" if todo.complete else "⏳ Pending" }}</span>
+                    <div class="actions">
+                        <a href="/update/{{ todo.id }}" class="btn-update">🔄 Toggle</a>
+                        <a href="/delete/{{ todo.id }}" class="btn-delete">🗑 Delete</a>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
-    </form>
-    {% for todo in todos %}
-    <p>{{ todo.id }} | {{todo.title}}</p>
-
-    {% if todo.complete == False %}
-        <span>Not complete</span>
-    {% else %}
-        <span>Complete</span>
-    {% endif %}
-    <a href="/update/{{ todo.id }}">Update</a>
-    <a href="/delete/{{ todo.id }}">Delet</a>
-{% endfor %}
+    </div>
 </body>
 </html>
